@@ -59,6 +59,7 @@ namespace Project_Student_Info_System.Database
                 }).ToList();
         }
 
+        //testam
         public void SeedDepartmentLectures(string filePath, List<Department> departments, List<Lecture> lectures)
         {
             var departmentLectures = ReadCsv(filePath);

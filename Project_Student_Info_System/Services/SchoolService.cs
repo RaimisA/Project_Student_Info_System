@@ -20,7 +20,8 @@ namespace Project_Student_Info_System.Services
             _departmentService = departmentService;
             _lectureService = lectureService;
         }
-
+        
+        //Servisų apjungimas
         // Student
         public void CreateStudent(Student student, string departmentCode, IEnumerable<int> lectureIds)
         {
