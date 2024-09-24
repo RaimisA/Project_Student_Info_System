@@ -151,6 +151,28 @@ namespace Project_Student_Tests
         }
 
         [TestMethod]
+        public void ValidateStudentNameNull_ShouldThrowException_WhenNameIsInvalid()
+        {
+            var invalidNames = new[] { "", null };
+
+            foreach (var name in invalidNames)
+            {
+                var student = new Student
+                {
+                    StudentNumber = 12345678,
+                    FirstName = name,
+                    LastName = "Doe",
+                    Email = "john.doe@example.com",
+                    DepartmentCode = "CS"
+                };
+
+                var exception = Assert.ThrowsException<ArgumentException>(() =>
+                    _validatorService.ValidateStudent(student));
+                Assert.AreEqual("Name must be at least 2 characters long.", exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void ValidateStudentName_ShouldThrowException_WhenNameIsInvalid()
         {
             // Arrange
@@ -340,6 +362,23 @@ namespace Project_Student_Tests
         }
 
         //[TestMethod]
+        //public void ValidateStudentDepartment_ShouldThrowException_WhenDepartmentIsMissing()
+        //{
+        //    var student = new Student
+        //    {
+        //        StudentNumber = 12345678,
+        //        FirstName = "John",
+        //        LastName = "Smith",
+        //        Email = "john.smith@example.com",
+        //        DepartmentCode = null // Missing department
+        //    };
+
+        //    var exception = Assert.ThrowsException<ArgumentException>(() =>
+        //        _validatorService.ValidateStudent(student));
+        //    Assert.AreEqual("Department is required.", exception.Message);
+        //}
+
+        //[TestMethod]
         //public void ValidateDepartmentCode_ShouldThrowException_WhenCodeIsNotUnique()
         //{
         //    // Arrange
@@ -362,6 +401,28 @@ namespace Project_Student_Tests
         //        _validatorService.ValidateDepartmentCode(department2.DepartmentCode));
         //    Assert.AreEqual("Department code must be unique.", exception.Message);
         //}
+
+        [TestMethod]
+        public void ValidateEmail_ShouldThrowException_WhenEmailIsInvalid()
+        {
+            // Arrange
+            var invalidEmails = new List<string>
+    {
+        "john.smithexample.com", // Missing @
+        "john.smith@", // Missing domain
+        "@example.com", // Missing local part
+        "john.smith@example", // Missing domain suffix
+        "john.smith@example." // Missing domain suffix
+    };
+
+            foreach (var email in invalidEmails)
+            {
+                // Act & Assert
+                var exception = Assert.ThrowsException<ArgumentException>(() =>
+                    _validatorService.ValidateEmail(email));
+                Assert.AreEqual("Email must be in a valid format.", exception.Message);
+            }
+        }
 
         [TestMethod]
         public void AddLecture_ShouldSucceed_WhenLectureIsAssignedToDifferentDepartment()
@@ -508,6 +569,19 @@ namespace Project_Student_Tests
             // Act & Assert
             var exception = Assert.ThrowsException<ArgumentException>(() => _validatorService.ValidateWeekDay(invalidDay));
             Assert.AreEqual("Invalid day of the week. Valid days are Monday through Friday.", exception.Message);
+        }
+
+        [TestMethod]
+        public void ValidateLectureNameNull_ShouldThrowException_WhenNameIsInvalid()
+        {
+            var invalidNames = new[] { "", null };
+
+            foreach (var name in invalidNames)
+            {
+                var exception = Assert.ThrowsException<ArgumentException>(() =>
+                    _validatorService.ValidateLectureName(name));
+                Assert.AreEqual("Lecture name must be at least 5 characters long.", exception.Message);
+            }
         }
 
         [TestMethod]

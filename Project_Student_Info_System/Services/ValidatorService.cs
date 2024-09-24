@@ -60,6 +60,7 @@ namespace Project_Student_Info_System.Services
             ValidateUniqueLectureName(lecture.Name);
         }
 
+
         public void ValidateStudentName(string name)
         {
             if (string.IsNullOrEmpty(name) || name.Length < 2)
